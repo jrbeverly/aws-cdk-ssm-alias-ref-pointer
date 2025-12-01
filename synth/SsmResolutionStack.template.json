@@ -1,0 +1,74 @@
+{
+ "Parameters": {
+  "SuppliedSsmParameter": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/ssm-resolution-cases/source/direct"
+  },
+  "Version": {
+   "Type": "String",
+   "Default": "v1"
+  },
+  "Pointer": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/ssm-resolution-cases/source/current"
+  }
+ },
+ "Resources": {
+  "CloudFormationParameterTypeResult": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/ssm-resolution-cases/results/cloudformation-parameter-type",
+    "Type": "String",
+    "Value": {
+     "Ref": "SuppliedSsmParameter"
+    }
+   }
+  },
+  "DynamicReferenceResult": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/ssm-resolution-cases/results/dynamic-reference",
+    "Type": "String",
+    "Value": "{{resolve:ssm:/ssm-resolution-cases/source/direct}}"
+   }
+  },
+  "PredictableNameResult": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/ssm-resolution-cases/results/predictable-name",
+    "Type": "String",
+    "Value": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:ssm:/ssm-resolution-cases/source/versions/",
+       {
+        "Ref": "Version"
+       },
+       "}}"
+      ]
+     ]
+    }
+   }
+  },
+  "PointerResult": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/ssm-resolution-cases/results/pointer",
+    "Type": "String",
+    "Value": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:ssm:",
+       {
+        "Ref": "Pointer"
+       },
+       "}}"
+      ]
+     ]
+    }
+   }
+  }
+ }
+}

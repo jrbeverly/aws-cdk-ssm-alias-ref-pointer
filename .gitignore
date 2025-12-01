@@ -1,0 +1,7 @@
+node_modules/
+cdk.out/
+synth/*
+!synth/SsmResolutionStack.template.json
+
+# root .gitignore ignores any bin/ directory; this app's entrypoint lives there
+!bin/
